@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Angel Search</title>
+    <link rel="stylesheet" href="searchbar.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css" integrity="sha512-1ycn6IcaQQ40/MKBW2W4Rhis/DbILU74C1vSrLJxCq57o941Ym01SwNsOMqvEBFlcgUa6xLiPY/NS5R+E6ztJQ==" crossorigin="anonymous" referrerpolicy="no-referrer">
+    <style>
+        i{
+            color: #287dfc;
+            font-size: 26px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1 class="h1">ANGEL SEARH</h1>
+
+    <div class="search">
+        <div class="icon"></div>
+        <div class="input">
+        <input type="text" class="textbox" placeholder="Nhập vô kiếm cho..." id="mysearch">
+        </div>
+        <span class="mic-icon"><i class="fas fa-microphone" ></i></span>
+        <span class="clear" onclick="document.getElementById('mysearch').value = ''"></span>
+    </div>
+
+    <span class="enter">
+        <a href="" id="tosearch" onclick="searchit()"><i class="fas fa-greater-than"></i></a>
+    </span>
+    
+    
+    <script>
+        // trượt khung
+        const icon = document.querySelector('.icon');
+        const search = document.querySelector('.search');
+        icon.onclick = function() {
+            search.classList.toggle('active')
+        }
+    </script>
+
+
+    <script>
+        //nhập bằng giọng nói
+        var SpeechRecognition = SpeechRecognition || webkitSpeechRecognition;
+
+        const recognition = new SpeechRecognition();
+
+        recognition.lang = 'vi-VI';
+        recognition.continuous = false;
+
+        const microphone = document.querySelector('.mic-icon');
+
+        const handleVoice = (text) => {
+            console.log(text);
+        }
+        
+        microphone.addEventListener('click', (e) => {
+            e.preventDefault();
+            recognition.start();
+        })
+        recognition.onspeechend = () => {
+            recognition.stop();
+        }
+        recognition.onerror = (err) => {
+            console.error(err);
+        }
+        recognition.onresult = (e) => {
+            console.log('onresult', e);
+            const text = e.results[0][0].transcript;
+            handleVoice(text);
+        }
+
+    </script>
+
+
+    <script type="text/javascript">
+        // tìm bằng google
+        function searchit () {
+            document.getElementById('tosearch').href=
+            (("https://www.google.com/search?q=") + 
+            (document.getElementById('mysearch').value));
+        }
+    </script>
+</body>
+</html>
